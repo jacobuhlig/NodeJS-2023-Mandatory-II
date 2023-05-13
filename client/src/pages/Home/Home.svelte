@@ -1,19 +1,22 @@
 <script>
-    let data;
+    let blogs;
 
-    async function fetchData() {
+    async function fetchBlogs() {
         const response = await fetch('http://localhost:8081/');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        data = await response.json();
+        blogs = await response.json();
     }
 
-    fetchData();
+    fetchBlogs();
 </script>
 
-{#if data}
-    <p>{JSON.stringify(data)}</p>
+{#if blogs}
+    {#each blogs as blog (blog.id)}
+        <p>{blog.title}<br>
+            {blog.content}</p>
+    {/each}
 {:else}
     <p>Loading...</p>
 {/if}

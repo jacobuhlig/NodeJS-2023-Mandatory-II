@@ -3,6 +3,10 @@ dotenv.config();
 
 import express from 'express';
 const app = express();
+app.use(express.json());
+
+import helmet  from "helmet";
+app.use(helmet());
 
 import cors from "cors";
 app.use(cors({
@@ -10,11 +14,41 @@ app.use(cors({
     origin: true
 }));
 
-app.use(express.json());
+import session from "express-session";
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false, 
+    saveUninitialized: true,
+    cookie: { secure: false } 
+  }));
+
+// import rateLimit from 'express-rate-limit'
+
+// const apiLimiter = rateLimit({
+//     windowMs: 15 * 60 * 1000,
+//     max: 100,
+//     standardHeaders: true, 
+//     legacyHeaders: false,
+// });
+// app.use(apiLimiter);
+
+// const signinLimiter = rateLimit({
+//     windowMs: 15 * 60 * 1000,
+//     max: 10, 
+//     standardHeaders: true,
+//     legacyHeaders: false,
+// });
+// app.use("/auth/signin", signinLimiter);
+
+import db from "./database/connection.js"
 
 
-app.get('/', function (req, res) {
-  res.send('Hello World');
+
+app.get('/', async (req, res) => {
+  const users = await db.all("SELECT * FROM blog_posts");
+  console.log(users);
+  res.status(200).json(users);
 });
 
 
