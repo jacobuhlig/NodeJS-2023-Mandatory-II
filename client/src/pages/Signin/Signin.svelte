@@ -1,0 +1,66 @@
+<script>
+  import { Button, TextInput, HeaderGlobalAction } from "carbon-components-svelte";
+  import { UserAvatarFilledAlt, ViewOffFilled } from "carbon-icons-svelte";
+
+  let email = "";
+  let password = "";
+
+  const handleLogin = () => {
+    // Handle login logic here
+    console.log(email, password);
+  };
+</script>
+<div class="outer">
+  <h1>Login</h1>
+  <div class="inner" style="display: flex; flex-direction: column; gap: 1rem;">
+    <div class="line">
+      <HeaderGlobalAction icon={UserAvatarFilledAlt}/>
+      <TextInput 
+        bind:value={email} 
+        placeholder="Email" 
+        type="email"  
+        labelText="Email address"
+      />
+    </div>
+
+    <div class="line">
+      <HeaderGlobalAction icon={ViewOffFilled}/>
+      <TextInput 
+        bind:value={password} 
+        placeholder="Password" 
+        type="password" 
+        labelText="Password"
+      />
+    </div>
+  </div>
+  <div class=button>
+    <Button on:click={handleLogin}>Login</Button>
+  </div>
+</div>
+
+<style>
+  .outer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h1 {
+    margin-bottom: 1em;
+  }
+  
+  .button {
+    margin-top: 4em;
+  }
+
+
+  .inner {
+    min-width: 400px;
+  }
+
+
+  .line {
+    flex-direction: row;
+  }
+</style>
