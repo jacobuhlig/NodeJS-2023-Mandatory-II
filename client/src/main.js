@@ -1,5 +1,6 @@
 // import './app.css'
 import "carbon-components-svelte/css/g90.css";
+import "./app.css";
 import "carbon-icons-svelte";
 import App from './App.svelte'
 

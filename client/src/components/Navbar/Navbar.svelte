@@ -23,6 +23,7 @@
   
   import {
     Login,
+    Logout,
     SettingsAdjust,
     UserAvatarFilledAlt
   } from "carbon-icons-svelte";
@@ -32,7 +33,15 @@
   let isOpen1 = false;
   let isOpen2 = false;
   
-  let loggedIn = false;
+  // Check up in this
+  let loggedIn = localStorage.getItem("loggedIn") === "false";
+
+
+  const handleLogout = () => {
+    event.preventDefault();
+    loggedIn = false;
+    localStorage.setItem("loggedIn", "false");
+  };
   
 </script>
 
@@ -70,27 +79,13 @@
           <HeaderPanelLink>Switcher item 1</HeaderPanelLink>
         </HeaderPanelLinks>
       </HeaderAction>
-      <HeaderAction bind:isOpen={isOpen2}>
-        <HeaderPanelLinks>
-          <HeaderPanelDivider>Switcher subject 1</HeaderPanelDivider>
-          <HeaderPanelLink>Switcher item 1</HeaderPanelLink>
-          <HeaderPanelDivider>Switcher subject 2</HeaderPanelDivider>
-          <HeaderPanelLink>Switcher item 1</HeaderPanelLink>
-          <HeaderPanelLink>Switcher item 2</HeaderPanelLink>
-          <HeaderPanelLink>Switcher item 3</HeaderPanelLink>
-          <HeaderPanelLink>Switcher item 4</HeaderPanelLink>
-          <HeaderPanelLink>Switcher item 5</HeaderPanelLink>
-        </HeaderPanelLinks>
-      </HeaderAction>
+      <Link to="/">
+        <HeaderGlobalAction on:click={handleLogout} icon={Logout}>
+        </HeaderGlobalAction>
+      </Link>
     </HeaderUtilities>
 
     {/if}
 
   </Header>
 </header>
-
-<!-- <style>
-  .navbar {
-    margin-bottom: 1em; /* adjust as needed */
-  }
-</style> -->
