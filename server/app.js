@@ -41,14 +41,35 @@ app.use(session({
 // });
 // app.use("/auth/signin", signinLimiter);
 
-import db from "./database/connection.js"
+// Additional middlewares to parse form data
+// app.use(express.urlencoded({ extended: true }));
 
+// Middleware
+function authorizationGuard(req, res, next) {
+    if (!req.session.user) {
+        return res.send({ message: "Access not permitted" });
+    }
+    next();
+}
 
+app.use("/auth/home", authorizationGuard);
 
-app.get('/', async (req, res) => {
-  const users = await db.all("SELECT * FROM blog_posts");
-  console.log(users);
-  res.status(200).json(users);
+// Routes
+
+import routerSignin from "./routers/routerSignin.js";
+app.use(routerSignin);
+
+import routerHome from "./routers/routerHome.js";
+app.use(routerHome);
+
+// app.get('/', async (req, res) => {
+//   const users = await db.all("SELECT * FROM blog_posts");
+//   console.log(users);
+//   res.status(200).json(users);
+// });
+
+app.get('/', (req, res) => {
+  res.send("hello");
 });
 
 

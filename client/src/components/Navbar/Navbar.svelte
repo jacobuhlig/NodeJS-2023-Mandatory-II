@@ -1,4 +1,5 @@
 <script>
+  import { user } from "../../stores/user.js";
   import { Link } from "svelte-navigator";
   
   import {
@@ -32,15 +33,11 @@
   let isSideNavOpen = true;
   let isOpen1 = false;
   let isOpen2 = false;
-  
-  // Check up in this
-  let loggedIn = localStorage.getItem("loggedIn") === "false";
 
+  $: email = $user;
 
   const handleLogout = () => {
     event.preventDefault();
-    loggedIn = false;
-    localStorage.setItem("loggedIn", "false");
   };
   
 </script>
@@ -48,7 +45,7 @@
 <header class="navbar">
   <Header company="Node.js" platformName="Mandatory II" bind:isSideNavOpen>
 
-    {#if !loggedIn}
+    {#if !email}
 
     <HeaderUtilities>
       <Link to="/signin">

@@ -1,5 +1,6 @@
 <script>
   import { Router, Route } from "svelte-navigator";
+  import PrivateRoute from "./components/RoutesPrivate/PrivateRoute.svelte";
   import AllAccess from "./pages/AllAccess/AllAccess.svelte";
   import Home from './pages/Home/Home.svelte'
   import Signin from "./pages/Signin/Signin.svelte";
@@ -14,13 +15,12 @@
 
     <Route path="/" component={AllAccess}/>
     <Route path="/signin" component={Signin}/>
-    <Route path="/home" component={Home}/>
     
 
-		<!-- <PrivateRoute path="profile" let:location>
-			<h3>Welcome {$user.username}</h3>
-			<button on:click={handleLogout}>Logout</button>
-		</PrivateRoute> -->
+		<PrivateRoute path="/home">
+        <Home/>
+    </PrivateRoute>
+
 	</main>
 </Router>
 

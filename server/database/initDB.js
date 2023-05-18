@@ -1,12 +1,24 @@
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 dotenv.config();
 
-import connection from './connection.js';
+import getDb from "./connection.js";
+const connection = await getDb();
 
 async function initializeDatabase() {
   try {
 
+    await connection.exec(`DROP TABLE IF EXISTS users`);
     await connection.exec(`DROP TABLE IF EXISTS blog_posts`);
+
+    
+    await connection.exec(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY,
+        email TEXT UNIQUE,
+        password TEXT
+      )
+    `);
 
     await connection.exec(`
       CREATE TABLE IF NOT EXISTS blog_posts (
@@ -15,6 +27,17 @@ async function initializeDatabase() {
         content TEXT
       )
     `);
+
+    const passwordHashAdmin = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+
+    await connection.run(`
+      INSERT INTO users (email, password) 
+      VALUES (?, ?)
+    `, [
+      'jacobuhlig@gmail.com',
+      passwordHashAdmin
+    ]);
+    
 
     await connection.run(`
       INSERT INTO blog_posts (title, content) 
