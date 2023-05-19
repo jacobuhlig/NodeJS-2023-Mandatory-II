@@ -1,9 +1,19 @@
 import { Router } from "express";
+
+import getDb from "../database/connection.js"
+import { authorizationGuard } from "./middlewares.js";
 const router = Router();
 
-// authorization
-router.get("/auth/home", (req, res) => {
-    res.status(200).send({ message: `Viewing this page, means that you're logged in` });
+router.get('/api/home/content', authorizationGuard, async (req, res) => {
+    console.log(`At least we got here`);
+    const db = await getDb();
+    try {
+        const blogs = await db.all("SELECT * FROM blog_posts");
+        res.status(200).json(blogs);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to fetch blog posts" });
+    }
 });
 
 export default router;

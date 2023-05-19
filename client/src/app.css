@@ -1,3 +1,8 @@
 h1:focus, .icon:focus {
   outline: none;
 }
+
+#toast-container {
+    top: 70px;
+    right: 23px;
+}

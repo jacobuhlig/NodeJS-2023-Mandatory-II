@@ -28,7 +28,8 @@ async function initializeDatabase() {
       )
     `);
 
-    const passwordHashAdmin = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+    const passwordAdmin = process.env.ADMIN_PASSWORD;
+    const passwordHashAdmin = await bcrypt.hash(passwordAdmin, 12);
 
     await connection.run(`
       INSERT INTO users (email, password) 

@@ -1,7 +1,8 @@
 <script>
   import { user } from "../../stores/user.js";
   import { Link } from "svelte-navigator";
-  
+  import Signout from "../Signout/Signout.svelte";
+
   import {
     Header,
     HeaderUtilities,
@@ -9,24 +10,25 @@
     HeaderGlobalAction,
     HeaderPanelLinks,
     HeaderPanelDivider,
-    HeaderPanelLink,
-    SideNav,
-    SideNavItems,
-    SideNavMenu,
-    SideNavMenuItem,
-    SideNavLink,
-    SkipToContent,
-    Content,
-    Grid,
-    Row,
-    Column,
+    HeaderPanelLink
+    // SideNav,
+    // SideNavItems,
+    // SideNavMenu,
+    // SideNavMenuItem,
+    // SideNavLink,
+    // SkipToContent,
+    // Content,
+    // Grid,
+    // Row,
+    // Column,
   } from "carbon-components-svelte";
   
   import {
     Login,
     Logout,
     SettingsAdjust,
-    UserAvatarFilledAlt
+    UserAvatarFilledAlt,
+    Home
   } from "carbon-icons-svelte";
   
 
@@ -36,29 +38,21 @@
 
   $: email = $user;
 
-  const handleLogout = () => {
-    event.preventDefault();
-  };
+  // const handleLogout = () => {
+  //   event.preventDefault();
+  // };
   
 </script>
 
 <header class="navbar">
   <Header company="Node.js" platformName="Mandatory II" bind:isSideNavOpen>
 
-    {#if !email}
+    {#if email}
 
     <HeaderUtilities>
-      <Link to="/signin">
-        <HeaderGlobalAction
-          icon={Login}>
-        </HeaderGlobalAction>
+      <Link to="/home">
+        <HeaderGlobalAction aria-label="Home" icon={Home} />
       </Link>
-    </HeaderUtilities>
-
-    {:else}
-
-    <HeaderUtilities>
-      <HeaderGlobalAction aria-label="Settings" icon={SettingsAdjust} />
       <HeaderAction
         bind:isOpen={isOpen1}
         icon={UserAvatarFilledAlt}
@@ -72,13 +66,17 @@
           <HeaderPanelDivider>Switcher subject 2</HeaderPanelDivider>
           <HeaderPanelLink>Switcher item 1</HeaderPanelLink>
           <HeaderPanelLink>Switcher item 2</HeaderPanelLink>
-          <HeaderPanelDivider>Switcher subject 3</HeaderPanelDivider>
-          <HeaderPanelLink>Switcher item 1</HeaderPanelLink>
         </HeaderPanelLinks>
       </HeaderAction>
-      <Link to="/">
-        <HeaderGlobalAction on:click={handleLogout} icon={Logout}>
-        </HeaderGlobalAction>
+      <!-- <HeaderGlobalAction on:click={Signout} aria-label="Signout" icon={Logout}/> -->
+      <Signout/>
+    </HeaderUtilities>
+
+    {:else}
+
+    <HeaderUtilities>
+      <Link to="/signin">
+        <HeaderGlobalAction icon={Login}/>
       </Link>
     </HeaderUtilities>
 

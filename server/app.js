@@ -8,10 +8,11 @@ app.use(express.json());
 import helmet  from "helmet";
 app.use(helmet());
 
+// ["http://localhost:5173"]
 import cors from "cors";
 app.use(cors({
-    credentials: true,
-    origin: true
+    origin: true,
+    credentials: true
 }));
 
 import session from "express-session";
@@ -19,7 +20,7 @@ import session from "express-session";
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false, 
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: { secure: false } 
   }));
 
@@ -45,14 +46,14 @@ app.use(session({
 // app.use(express.urlencoded({ extended: true }));
 
 // Middleware
-function authorizationGuard(req, res, next) {
-    if (!req.session.user) {
-        return res.send({ message: "Access not permitted" });
-    }
-    next();
-}
+// function authorizationGuard(req, res, next) {
+//     if (!req.session.user) {
+//         return res.status(404).json({ message: "Access not permitted" });
+//     }
+//     next();
+// }
 
-app.use("/auth/home", authorizationGuard);
+// app.use("/api/home", authorizationGuard);
 
 // Routes
 
@@ -62,15 +63,6 @@ app.use(routerSignin);
 import routerHome from "./routers/routerHome.js";
 app.use(routerHome);
 
-// app.get('/', async (req, res) => {
-//   const users = await db.all("SELECT * FROM blog_posts");
-//   console.log(users);
-//   res.status(200).json(users);
-// });
-
-app.get('/', (req, res) => {
-  res.send("hello");
-});
 
 
 

@@ -4,62 +4,75 @@
   import { user } from "../../stores/user.js";
   import { Button, TextInput } from "carbon-components-svelte";
   import { Email, Password, Login } from "carbon-icons-svelte";
-  import toastr from "toastr";
-  import 'toastr/build/toastr.css';
+  import toastr, { toastrSetup } from "../../utils/toastr.js";
 
-  toastr.options = {
-        "positionClass": "toast-top-left",
-        "timeOut": "1200"
-  }
+  
+
+  // const navigate = useNavigate();
+	// const location = useLocation();
+  // export let location, navigate;
+
+  toastrSetup();
 
   let email = "";
   let password = "";
 
 
   async function handleLogin() {
-    // console.log(email, password);
+    console.log(email, password);
     const userCredentials = JSON.stringify({email, password});
+    console.log(userCredentials);
     const signinURL = $BASE_URL + "/auth/signin";
 
-    const response = await fetch(signinURL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: userCredentials,
-        credentials: "include"
-    });
+    try {
+      console.log(`1`);
+      const response = await fetch(signinURL, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+            },
+            body: userCredentials,
+            credentials: "include"
+      });
+      
+      if (!response.ok) {
+        if(response.status === 400) {
+          throw new Error("Wrong email or password. Please try again.");
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      }
+
+      const data = await response.json();
+      console.log("data: " + data);
+      
+      if (data.email === email) {
+          let authenticatedEmail = data.email;
+          user.set(authenticatedEmail);
     
-    const data = await response.json();
-    
-    // let data;
+          toastr.success(`You've signed in successfully, welcome back ${authenticatedEmail}`);
+          setTimeout(() => {
+              navigate("/home", { replace: true });
+          }, 0)
+      }
+      
+      email = "";
+      password = "";
 
-    // if (response.headers.get("content-type").includes("application/json")) {
-    //     data = await response.json();
-    // } else {
-    //     data = await response.text();
-    // }
-
-    // typeof data === 'object' && 
-
-    if (data.email === email) {
-        let authenticatedEmail = data.email;
-        $user = authenticatedEmail;
-        
-        
-        toastr.success(`You've signed in successfully, welcome back ${authenticatedEmail}`);
-        setTimeout(() => {
-            navigate("/home", { replace: true });
-        }, 1500)
-    } else {
-        toastr.error("Wrong email or password. Try again.");
+    } catch (error) {
+      console.error('An error occurred:', error);
+      toastr.error(error.message);
     }
-
-    email = "";
-    password = "";
   };
+    
+    
+   
+
+  
 
 </script>
+
+<slot></slot>
 
 <div class="outer">
   <h1>Signin</h1>
@@ -71,8 +84,9 @@
         </div>
         <TextInput 
           bind:value={email} 
-          placeholder="Email" 
           type="email"  
+          placeholder="Email"
+          name="email" 
           labelText="Email address"
         />
       </div>
@@ -83,8 +97,9 @@
         </div>
         <TextInput 
           bind:value={password} 
-          placeholder="Password" 
           type="password" 
+          placeholder="Password"
+          name="password"
           labelText="Password"
         />
       </div>
