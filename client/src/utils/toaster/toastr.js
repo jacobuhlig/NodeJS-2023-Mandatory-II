@@ -1,5 +1,6 @@
 import toastr from "toastr";
 import 'toastr/build/toastr.css';
+import "./toastr.css";
 
 export function toastrSetup() {
   toastr.options = {

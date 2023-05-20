@@ -1,6 +1,6 @@
 <script>
   import { user } from "../../stores/user.js";
-  import { Link } from "svelte-navigator";
+  import { Link, useLocation } from "svelte-navigator";
   import Signout from "../Signout/Signout.svelte";
 
   import {
@@ -11,37 +11,34 @@
     HeaderPanelLinks,
     HeaderPanelDivider,
     HeaderPanelLink
-    // SideNav,
-    // SideNavItems,
-    // SideNavMenu,
-    // SideNavMenuItem,
-    // SideNavLink,
-    // SkipToContent,
-    // Content,
-    // Grid,
-    // Row,
-    // Column,
   } from "carbon-components-svelte";
   
   import {
     Login,
-    Logout,
-    SettingsAdjust,
+    Undo,
     UserAvatarFilledAlt,
     Home
   } from "carbon-icons-svelte";
-  
 
   let isSideNavOpen = true;
   let isOpen1 = false;
   let isOpen2 = false;
+  
+  let location = useLocation();
+  let targetRoute;
+  let icon;
 
   $: email = $user;
 
-  // const handleLogout = () => {
-  //   event.preventDefault();
-  // };
-  
+  $: {
+    if ($location.pathname === '/signin') {
+      targetRoute = '/';
+      icon = Undo;
+    } else {
+      targetRoute = '/signin';
+      icon = Login;
+    }
+  }
 </script>
 
 <header class="navbar">
@@ -68,15 +65,14 @@
           <HeaderPanelLink>Switcher item 2</HeaderPanelLink>
         </HeaderPanelLinks>
       </HeaderAction>
-      <!-- <HeaderGlobalAction on:click={Signout} aria-label="Signout" icon={Logout}/> -->
       <Signout/>
     </HeaderUtilities>
 
     {:else}
 
     <HeaderUtilities>
-      <Link to="/signin">
-        <HeaderGlobalAction icon={Login}/>
+      <Link to={targetRoute}>
+        <HeaderGlobalAction icon={icon} />
       </Link>
     </HeaderUtilities>
 

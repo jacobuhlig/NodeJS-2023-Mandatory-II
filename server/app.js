@@ -8,10 +8,9 @@ app.use(express.json());
 import helmet  from "helmet";
 app.use(helmet());
 
-// ["http://localhost:5173"]
 import cors from "cors";
 app.use(cors({
-    origin: true,
+    origin: [process.env.PORT_CLIENT],
     credentials: true
 }));
 

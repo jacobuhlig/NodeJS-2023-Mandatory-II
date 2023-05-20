@@ -2,7 +2,7 @@
   import { BASE_URL } from "../../stores/urls.js";
   import { user } from "../../stores/user.js";
   import { Link } from "svelte-navigator";
-  import toastr, { toastrSetup } from "../../utils/toastr.js";
+  import toastr, { toastrSetup } from "../../utils/toaster/toastr.js";
 
   import { HeaderGlobalAction } from "carbon-components-svelte";
   import { Logout } from "carbon-icons-svelte";
@@ -26,7 +26,7 @@
     $user = null;
 
     if (data.message) {
-        toastr.info("See you!");
+        toastr.info("You've signed out successfully.");
     } else {
         toastr.error("Failed to log out. Please try again later.");
     }

@@ -5,7 +5,6 @@ import { authorizationGuard } from "./middlewares.js";
 const router = Router();
 
 router.get('/api/home/content', authorizationGuard, async (req, res) => {
-    console.log(`At least we got here`);
     const db = await getDb();
     try {
         const blogs = await db.all("SELECT * FROM blog_posts");

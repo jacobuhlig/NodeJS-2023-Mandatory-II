@@ -4,13 +4,8 @@
   import { user } from "../../stores/user.js";
   import { Button, TextInput } from "carbon-components-svelte";
   import { Email, Password, Login } from "carbon-icons-svelte";
-  import toastr, { toastrSetup } from "../../utils/toastr.js";
+  import toastr, { toastrSetup } from "../../utils/toaster/toastr.js";
 
-  
-
-  // const navigate = useNavigate();
-	// const location = useLocation();
-  // export let location, navigate;
 
   toastrSetup();
 
@@ -50,7 +45,7 @@
           let authenticatedEmail = data.email;
           user.set(authenticatedEmail);
     
-          toastr.success(`You've signed in successfully, welcome back ${authenticatedEmail}`);
+          toastr.success(`You've signed in successfully.`);
           setTimeout(() => {
               navigate("/home", { replace: true });
           }, 0)
@@ -64,60 +59,61 @@
       toastr.error(error.message);
     }
   };
-    
-    
-   
-
-  
-
 </script>
 
-<slot></slot>
-
-<div class="outer">
-  <h1>Signin</h1>
-  <form on:submit|preventDefault={handleLogin}>
-    <div class="inner" style="display: flex; flex-direction: column; gap: 1rem;">
-      <div class="line">
-        <div class="icon">
-          <Email size={20}/>
+<div class="flex-center">
+  <div class="outer">
+    <h1>Signin</h1>
+    <form on:submit|preventDefault={handleLogin}>
+      <div class="inner" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="line">
+          <div class="icon">
+            <Email size={20}/>
+          </div>
+          <TextInput 
+            bind:value={email} 
+            type="email"  
+            placeholder="Email"
+            name="email" 
+            labelText="Email address"
+          />
         </div>
-        <TextInput 
-          bind:value={email} 
-          type="email"  
-          placeholder="Email"
-          name="email" 
-          labelText="Email address"
-        />
-      </div>
 
-      <div class="line">
-        <div class="icon">
-          <Password size={20}/>
+        <div class="line">
+          <div class="icon">
+            <Password size={20}/>
+          </div>
+          <TextInput 
+            bind:value={password} 
+            type="password" 
+            placeholder="Password"
+            name="password"
+            labelText="Password"
+          />
         </div>
-        <TextInput 
-          bind:value={password} 
-          type="password" 
-          placeholder="Password"
-          name="password"
-          labelText="Password"
-        />
       </div>
-    </div>
-    <div class=button>
-      <Button type="submit" icon={Login}>Signin</Button>
-    </div>
-  </form>
+      <div class=button>
+        <Button type="submit" icon={Login}>Signin</Button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <style>
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 48px);
+    width: 100%;
+  }
+
   .outer, form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
   }
-
+  
   h1 {
     margin-bottom: 1em;
   }
@@ -126,11 +122,9 @@
     margin-top: 4em;
   }
 
-
   .inner {
     min-width: 400px;
   }
-
 
   .line {
     /* flex-direction: row; */

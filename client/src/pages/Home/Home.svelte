@@ -7,12 +7,10 @@
     import { onMount } from "svelte";
 
     let blogs = [];
-    let title = "";
-    let content = "";
 
     async function fetchBlogs() {
         
-        const baseUrl = get(BASE_URL); // Get the value of the BASE_URL store
+        const baseUrl = get(BASE_URL); 
         const blogURL = baseUrl + "/api/home/content";
 
         try {
@@ -24,7 +22,6 @@
                 credentials: "include"
             });
 
-            
             if (!response.ok) {
                 const errorText = await response.text();
                 throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
@@ -43,11 +40,11 @@
 </script>
 
 <div class="container">
-    <h1>Your Blog Posts</h1>
+    <h1>Blog Posts</h1>
     {#if blogs.length}
         {#each blogs as blog (blog.id)}
+            <h2 class="blog-title">{blog.title}</h2>  <!-- Blog title moved outside the blog-post div -->
             <div class="blog-post">
-                <h2 class="blog-title">{blog.title}</h2>
                 <p class="blog-content">{blog.content}</p>
             </div>
         {/each}
@@ -61,70 +58,47 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
     width: 100%;
-    padding: 2em 1em;  /* Add padding to prevent content sticking to the edges */
+    padding: 2em 1em;
+    color: #f4f4f4;
   }
 
   h1 {
-    margin-top: 2em; /* Ensures a minimum margin from the top */
+    margin: 2em 0 1.2em 0; 
+    color: #cdd1d4;
   }
 
   .blog-post {
-    width: 80%;
+    width: 100%;
     margin-bottom: 2em;
     padding: 1em;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;  
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);  
+    background-color: #3b3b3b;
   }
 
   .blog-title {
-    margin: 0;
-    margin-bottom: 0.5em;
-    color: #333;
-    font-size: 1.5em;
+    margin: 0 0 1em 0;
+    color: #dadada;
+    font-size: 2em;
   }
 
   .blog-content {
-    color: #666;
+    color: #d3d3d3;
     line-height: 1.6;
+    white-space: pre-line; 
   }
 
-  /* Add media query for smaller screens */
   @media (max-width: 768px) {
     .container {
       align-items: flex-start;
-      padding: 2em 0.5em;  /* Reduce side padding for smaller screens */
+      padding: 2em 0.5em;  
     }
 
     .blog-post {
-      width: 100%;  /* Allow blog post to take full width on smaller screens */
+      width: 100%;  
     }
   }
 </style>
-
-
-<!-- <style>
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .blog-post {
-    width: 80%;
-    margin-bottom: 2em;
-    padding: 1em;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .blog-title {
-    margin: 0;
-    margin-bottom: 0.5em;
-    color: #333;
-    font-size: 1.5em;
-  }
-
-  .blog-content {
-    color: #666;
-    line-height: 1.6;
-  }
-</style> -->

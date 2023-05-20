@@ -1,0 +1,21 @@
+#toast-container .toast, .toast:hover {
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1)!important;
+    background-size: 22px 22px !important;
+}
+
+#toast-container .toast.toast-success {
+    background-color: #0f63fea2;
+    background-image: url('src/assets/icons/checkmark--outline.svg')!important;
+}
+
+#toast-container .toast.toast-error {
+    background-color: #920202a2;
+    background-image: url('src/assets/icons/error--outline.svg')!important;
+}
+
+#toast-container .toast.toast-info {
+    background-color: #969696a2;
+    background-image: url('src/assets/icons/info--outline.svg')!important;
+}
+
+
