@@ -5,6 +5,7 @@
   import { Button, TextInput } from "carbon-components-svelte";
   import { Email, Password, Login } from "carbon-icons-svelte";
   import toastr, { toastrSetup } from "../../utils/toaster/toastr.js";
+  import ResetPassword from "../../components/ResetPassword/ResetPassword.svelte";
 
 
   toastrSetup();
@@ -59,6 +60,8 @@
       toastr.error(error.message);
     }
   };
+
+
 </script>
 
 <div class="flex-center">
@@ -76,6 +79,7 @@
             placeholder="Email"
             name="email" 
             labelText="Email address"
+            required={true}
           />
         </div>
 
@@ -89,12 +93,17 @@
             placeholder="Password"
             name="password"
             labelText="Password"
+            required={true}
           />
         </div>
+
+        <ResetPassword/>
+
       </div>
       <div class=button>
         <Button type="submit" icon={Login}>Signin</Button>
       </div>
+      
     </form>
   </div>
 </div>
@@ -127,7 +136,6 @@
   }
 
   .line {
-    /* flex-direction: row; */
     display: flex;
     align-items: center;
     gap: 1em;
@@ -135,5 +143,10 @@
 
   .icon {
     margin-top: 20px;
+  }
+
+  a:-webkit-any-link {
+    text-decoration: none;
+    cursor: pointer;
   }
 </style>

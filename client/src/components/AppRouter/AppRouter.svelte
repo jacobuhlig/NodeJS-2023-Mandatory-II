@@ -27,8 +27,6 @@
 </main>
 
 <style>
-
-  
   main {
     display: grid;
     grid-template-rows: auto 1fr;

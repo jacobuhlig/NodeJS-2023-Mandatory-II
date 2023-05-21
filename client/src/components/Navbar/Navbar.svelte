@@ -21,8 +21,7 @@
   } from "carbon-icons-svelte";
 
   let isSideNavOpen = true;
-  let isOpen1 = false;
-  let isOpen2 = false;
+  let isOpen = false;
   
   let location = useLocation();
   let targetRoute;
@@ -51,7 +50,7 @@
         <HeaderGlobalAction aria-label="Home" icon={Home} />
       </Link>
       <HeaderAction
-        bind:isOpen={isOpen1}
+        bind:isOpen={isOpen}
         icon={UserAvatarFilledAlt}
         closeIcon={UserAvatarFilledAlt}>
         <HeaderPanelLinks>

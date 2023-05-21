@@ -1,8 +1,5 @@
 import { writable } from "svelte/store";
 
-// export const user = writable(null);
-// export const mail = writable(null);
-
 function createUserStore() {
   const { subscribe, set } = writable(null);
 

@@ -1,7 +1,6 @@
 <script>
   import { BASE_URL } from "../../stores/urls.js";
   import { user } from "../../stores/user.js";
-  import { Link } from "svelte-navigator";
   import toastr, { toastrSetup } from "../../utils/toaster/toastr.js";
 
   import { HeaderGlobalAction } from "carbon-components-svelte";
@@ -20,8 +19,6 @@
     });
 
     const data = await response.json();
-    console.log(data);
-    console.log(data.message);
 
     $user = null;
 
@@ -35,4 +32,3 @@
 </script>
 
 <HeaderGlobalAction on:click={handleSignout} aria-label="Signout" icon={Logout}/>
-<!-- <Link to="/" on:click={handleSignout}>Sign out</Link> -->

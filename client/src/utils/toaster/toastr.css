@@ -18,4 +18,8 @@
     background-image: url('src/assets/icons/info--outline.svg')!important;
 }
 
+#toast-container .toast.toast-warning {
+    background-color: #b8bf02a2;
+    background-image: url('src/assets/icons/warning--outline.svg')!important;
+}
 

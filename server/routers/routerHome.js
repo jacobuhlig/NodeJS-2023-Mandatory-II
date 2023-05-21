@@ -1,7 +1,6 @@
-import { Router } from "express";
-
 import getDb from "../database/connection.js"
 import { authorizationGuard } from "./middlewares.js";
+import { Router } from "express";
 const router = Router();
 
 router.get('/api/home/content', authorizationGuard, async (req, res) => {

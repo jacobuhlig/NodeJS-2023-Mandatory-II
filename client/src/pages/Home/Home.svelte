@@ -1,6 +1,4 @@
 <script>
-    "use strict";
-    import { navigate } from "svelte-navigator";
     import { get } from "svelte/store";
     import { BASE_URL } from "../../stores/urls.js";
     import { user } from "../../stores/user.js";

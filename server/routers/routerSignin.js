@@ -1,9 +1,8 @@
-import { Router } from "express";
-const router = Router();
-
 import bcrypt from "bcrypt";
 import getDb from "../database/connection.js"
-
+import { sendResetPassword } from "../util/nodemailer/nodemailer.js";
+import { Router } from "express";
+const router = Router();
 
 
 
@@ -40,5 +39,33 @@ router.get("/auth/signout", (req, res) => {
         res.json("No user is currently logged in.");
     }
 });
+
+
+
+// Reset Password route
+router.post("/auth/reset", async (req, res) => {
+    const db = await getDb();
+    const { email } = req.body;
+
+    const user = await db.get("SELECT * FROM users WHERE email = ?", [email]);
+
+    // Check if user exists
+    if (!user) {
+      return res.status(400).send("User doesn't exist.");
+    }
+
+    // Send reset password email
+    const response = await sendResetPassword(email);
+    console.log(response);
+
+    if (!response.ok) {
+        return res.status(500).send({message: "Failed to send reset password email."});
+    }
+    else {
+        return res.status(200).send({message: "Password reset email sent successfully."});
+    }
+});
+
+
 
 export default router;
