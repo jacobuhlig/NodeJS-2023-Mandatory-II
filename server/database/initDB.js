@@ -39,6 +39,13 @@ async function initializeDatabase() {
       passwordHashAdmin
     ]);
     
+     await connection.run(`
+      INSERT INTO users (email, password) 
+      VALUES (?, ?)
+    `, [
+      'tippotopper@gmail.com',
+      passwordHashAdmin
+    ]);
 
     await connection.run(`
       INSERT INTO blog_posts (title, content) 
